@@ -1,4 +1,6 @@
-# CV Coach 履歷教練
+<p align="center"><b>輔仁大學 Fu Jen Catholic University</b><br><sub>Financial Market and Global Business · FMGB</sub></p>
+
+# 📄 CV Coach 履歷教練 `FMGB`
 
 **線上使用 Use it online:** https://chiekang.github.io/cv-coach/
 
