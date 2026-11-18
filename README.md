@@ -1,4 +1,4 @@
-<p align="center"><b>輔仁大學 Fu Jen Catholic University</b><br><sub>Financial Market and Global Business · FMGB</sub></p>
+<p align="center"><b>輔仁大學 Fu Jen Catholic University</b><br><sub>Financial Market and Global Business · FMGB<br>By Francis Lee</sub></p>
 
 # 📄 CV Coach 履歷教練 `FMGB`
 
@@ -94,3 +94,4 @@ To update, replace `index.html` and commit; the URL stays the same.
 ---
 
 課程 Course: Financial Market and Global Business · 輔仁大學 Fu Jen Catholic University
+By Francis Lee
