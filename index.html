@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV Coach · FMGB</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#F6F3EC;--card:#FFFFFF;--ink:#1F2A37;--mute:#5B6676;--line:#E2DDD2;--navy:#2D4A8A;--green:#2F7D5B;--amber:#C98A1B;--red:#B4442F;--soft:#EEF2FA}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,"Noto Sans TC",system-ui,sans-serif}
+header{display:flex;align-items:center;gap:14px;padding:14px 24px;border-bottom:1px solid var(--line);background:#FBF9F4;position:sticky;top:0;z-index:5}
+header h1{font-size:19px;margin:0;font-weight:700}
+header .sub{color:var(--mute);font-size:13px}
+header .sp{flex:1}
+.pill{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--navy);font-weight:600}
+.wrap{display:grid;grid-template-columns:minmax(380px,1fr) minmax(420px,1fr);gap:24px;padding:20px 24px;max-width:1500px;margin:0 auto}
+@media (max-width:960px){.wrap{grid-template-columns:1fr}}
+#steps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+#steps button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;font:inherit;font-size:13px;color:var(--mute);cursor:pointer}
+#steps button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+h2{font-size:20px;margin:0 0 4px}
+h3{font-size:16px;margin:0 0 8px}
+.hint{color:var(--mute);font-size:13.5px;margin:2px 0 12px}
+.en{color:var(--mute)}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+label small{font-weight:400;color:var(--mute)}
+input[type=text],input[type=email],textarea,select{width:100%;font:inherit;padding:8px 10px;border:1px solid #CFC8BA;border-radius:8px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;min-height:44px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1.2fr 1fr 1.6fr;gap:8px;align-items:end}
+.date{display:flex;gap:6px}
+.date select{width:auto;flex:1}
+.chk{display:flex;align-items:center;gap:6px;font-weight:500;font-size:13px;margin-top:8px}
+.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 14px;cursor:pointer;color:var(--ink)}
+.btn:hover{border-color:#B9B1A1}
+.btn.pri{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.ai{background:#F1ECFB;border-color:#D8CDF2;color:#4B3A88}
+.btn.sm{font-size:12.5px;padding:5px 10px}
+.btn.del{color:var(--red)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.nav{display:flex;justify-content:space-between;margin-top:6px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{border:2px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit}
+.choice.on{border-color:var(--navy);background:var(--soft)}
+.choice b{display:block;font-size:16px;margin-bottom:4px}
+.ent{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#FCFBF8}
+.enthead{display:flex;justify-content:space-between;align-items:center}
+.bullet{border-left:3px solid #D9D2C3;padding:6px 0 6px 10px;margin:10px 0}
+.brow{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.aiout{margin-top:8px;background:#F7F4FD;border:1px solid #E4DCF6;border-radius:10px;padding:10px}
+.aiout .tag{font-size:11.5px;font-weight:700;color:#5B47A0;letter-spacing:.5px}
+.coach{font-size:13px;margin:8px 0 0;line-height:1.45}
+.ask{margin-top:8px;background:#FFF6E3;border:1px solid #F1DDB0;border-radius:8px;padding:8px}
+.ask p{margin:0 0 6px;font-size:13px}
+.tip{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:13.5px;margin:8px 0}
+.tip ul{margin:4px 0 0;padding-left:18px}
+.good{color:var(--green)} .bad{color:var(--red)}
+.issues li{margin:4px 0}
+.drop{border:2px dashed #C9C1B0;border-radius:12px;padding:16px;text-align:center;background:#FCFBF8}
+#right{position:sticky;top:72px;align-self:start}
+@media (max-width:960px){#right{position:static}}
+.score{display:flex;gap:16px;align-items:center}
+.big{font-size:44px;font-weight:700;line-height:1}
+.big small{font-size:14px;color:var(--mute);font-weight:500}
+.cats{margin-top:10px}
+.cat{display:grid;grid-template-columns:16px 1fr auto;gap:8px;align-items:start;padding:6px 0;border-top:1px solid #EFEBE2}
+.dot{width:12px;height:12px;border-radius:50%;margin-top:4px}
+.dot.g{background:var(--green)} .dot.y{background:var(--amber)} .dot.r{background:var(--red)}
+.cat .t{font-weight:600;font-size:13.5px}
+.cat .s{font-size:12.5px;color:var(--mute)}
+.cat .n{font-weight:700;font-size:13.5px}
+.warn{background:#FDEDEA;border:1px solid #F2C5BB;color:#7A2A1C;border-radius:10px;padding:8px 12px;font-size:13px;margin-top:10px}
+.ba{display:inline-block;background:#E7F3EC;color:var(--green);border-radius:99px;padding:3px 10px;font-weight:600;font-size:13px}
+#paperWrap{overflow:hidden;border-radius:6px;box-shadow:0 2px 14px rgba(0,0,0,.08);margin-top:12px;background:#fff}
+#paper{width:794px;min-height:1123px;padding:52px 58px;background:#fff;transform-origin:0 0;position:relative;color:#111;font:12.6px/1.4 Arial,Helvetica,"Noto Sans TC",sans-serif}
+#paper .pname{text-align:center;font-size:24px;font-weight:700;letter-spacing:.5px}
+#paper .pcontact{text-align:center;font-size:11.8px;color:#333;margin:4px 0 6px}
+#paper .psec{font-weight:700;font-size:13px;letter-spacing:1px;border-bottom:1.2px solid #222;margin:12px 0 5px;padding-bottom:2px}
+#paper .erow{display:flex;justify-content:space-between;gap:10px}
+#paper .erow span{white-space:nowrap}
+#paper .esub{font-style:italic}
+#paper .enote{color:#333}
+#paper ul{margin:2px 0 6px;padding-left:18px}
+#paper li{margin:1px 0}
+#paper .pobj{margin:0}
+#paper .ph{color:#BBB}
+#paper .pskill{margin:2px 0}
+#paper .cut{position:absolute;left:0;right:0;top:1123px;border-top:2px dashed var(--red);color:var(--red);font:600 12px Inter,sans-serif;text-align:center;padding-top:2px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;display:none;max-width:90vw;z-index:20}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:s .8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+.small{font-size:12.5px;color:var(--mute)}
+#modal{position:fixed;inset:0;background:rgba(20,25,35,.55);display:none;align-items:center;justify-content:center;z-index:30;padding:16px}
+#modal .box{background:#fff;border-radius:16px;max-width:720px;width:100%;max-height:92vh;overflow:auto;padding:20px 22px}
+#modal ol{padding-left:20px;margin:8px 0} #modal li{margin:6px 0}
+#modal .err{color:var(--red);font-size:13px;min-height:18px}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>CV Coach</h1><div class="sub">Financial Market and Global Business · 一頁履歷教練</div></div>
+  <div class="sp"></div>
+  <span class="pill" id="langPill"></span>
+</header>
+<main class="wrap">
+  <section id="left">
+    <nav id="steps"></nav>
+    <div id="panel"></div>
+  </section>
+  <aside id="right">
+    <div class="card" id="scorecard"></div>
+    <div id="paperWrap"><div id="paper"></div></div>
+    <p class="small" style="margin-top:8px">預覽：A4 一頁。紅色虛線以下代表超過一頁。Preview: one A4 page; anything below the red line spills onto page 2.</p>
+  </aside>
+</main>
+<div id="toast"></div>
+<div id="modal"><div class="box">
+  <h2>用你自己的 AI <span class="en">Use your own AI</span></h2>
+  <p class="hint">Gemini、ChatGPT、Claude 都可以。Any AI chat works.</p>
+  <ol>
+    <li><b>複製提示詞</b> Copy the prompt <button class="btn sm pri" id="mCopy">📋 複製 Copy</button> <span id="mCopied" class="small"></span></li>
+    <li id="mImg" style="display:none"><b>在你的 AI 裡附上履歷照片</b>，再貼上提示詞。<span class="en">Attach your CV photo(s) in your AI chat, then paste the prompt.</span></li>
+    <li><b>貼到你的 AI</b>，送出。 <span class="en">Paste it into your AI and send.</span></li>
+    <li><b>把 AI 的回答整段複製，貼到下面</b>。 <span class="en">Copy the whole answer and paste it below.</span></li>
+  </ol>
+  <details><summary class="small">看提示詞內容 Show the prompt</summary><textarea id="mPrompt" rows="6" readonly style="margin-top:6px;font-size:12px"></textarea></details>
+  <label>AI 的回答 <small>Your AI's answer</small></label>
+  <textarea id="mAnswer" rows="7" placeholder='{"items": ...}'></textarea>
+  <div class="err" id="mErr"></div>
+  <div class="brow"><button class="btn pri" id="mApply">✅ 套用 Apply</button><button class="btn" id="mCancel">取消 Cancel</button></div>
+</div></div>
+<input type="file" id="jsonIn" accept=".json,application/json" hidden>
+
+<script>
+/* ---------- basics ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CJK = /[㐀-鿿豈-﫿]/;
+const KEY = 'cvcoach.v1';
+const LEVELS = [['', '—'], ['Basic', '基礎 Basic'], ['Intermediate', '中等 Intermediate'], ['Advanced', '進階 Advanced'], ['Expert', '精通 Expert']];
+const LEVEL_ZH = {Basic:'基礎', Intermediate:'中等', Advanced:'進階', Expert:'精通'};
+const STEPS = ['開始 Start', '基本資料 Basics', '學歷 Education', '經歷 Experience', '專題活動 Projects', '技能語言 Skills', '完成匯出 Finish'];
+const CRIT = {easy:['易讀','Easy to read'], right:['內容正確','Right content'], proof:['有證據','Proof'], strong:['強動詞','Strong words'], results:['有成果','Results']};
+
+const newB = (src='') => ({src, out:'', coachZh:'', coachEn:'', qZh:'', qEn:'', ans:''});
+const newEdu = () => ({school:'', degree:'', start:'', end:'', present:false, note:'', t:{}});
+const newExp = () => ({org:'', title:'', city:'', start:'', end:'', present:false, bullets:[newB()], t:{}});
+const newSkill = () => ({name:'', level:'', proof:'', t:{}});
+const newLang = () => ({name:'', level:'', t:{}});
+const newCert = () => ({name:'', t:{}});
+const blank = () => ({v:1, inLang:'zh', outLang:'en', step:0, mode:null,
+  contact:{nameZh:'', nameEn:'', email:'', phone:'', city:'', linkedin:'', t:{}},
+  target:{role:'', t:{}}, summary:{src:'', out:'', coachZh:'', coachEn:''},
+  education:[newEdu()], experience:[newExp()], projects:[], skills:[newSkill()], languages:[newLang()], certs:[],
+  before:null, issues:[], honest:false, aiMode:'auto'});
+
+function load(){ try { const s = JSON.parse(localStorage.getItem(KEY)); return s && s.v === 1 ? s : null; } catch(e){ return null; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+let S = load() || blank();
+let sample = null, imgLimits = null, downloads = null, busy = false;
+
+const getP = p => p === '' ? S : p.split('.').reduce((o, k) => o == null ? o : o[k], S);
+function setP(p, v){ const a = p.split('.'), k = a.pop(); const o = getP(a.join('.')); if (o) o[k] = v; }
+
+function toast(msg, ms=3500){ const t = $('#toast'); t.textContent = msg; t.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => t.style.display = 'none', ms); }
+
+/* ---------- dates ---------- */
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtD(d, L){ if (!d) return ''; const [y, m] = d.split('-'); if (!m) return L === 'en' ? y : y + '年'; return L === 'en' ? MON[+m - 1] + ' ' + y : `${y}年${+m}月`; }
+function range(o, L){
+  const s = fmtD(o.start, L), e = o.present ? (L === 'en' ? 'Present' : '至今') : fmtD(o.end, L);
+  let r = s && e ? `${s} – ${e}` : (s || e);
+  if (!o.present && o.end) { const now = new Date(), [y, m] = o.end.split('-'); if (+y > now.getFullYear() || (+y === now.getFullYear() && +(m || 12) > now.getMonth() + 1)) r += L === 'en' ? ' (expected)' : '（預計）'; }
+  return r;
+}
+function dateSel(path, val){
+  const [y, m] = (val || '').split('-'); const yr = new Date().getFullYear();
+  let ys = '<option value="">年 Year</option>'; for (let i = yr + 5; i >= yr - 12; i--) ys += `<option ${String(i) === y ? 'selected' : ''}>${i}</option>`;
+  let ms = '<option value="">月 Month</option>'; for (let i = 1; i <= 12; i++) { const v = String(i).padStart(2, '0'); ms += `<option value="${v}" ${v === m ? 'selected' : ''}>${i} ${MON[i-1]}</option>`; }
+  return `<span class="date"><select data-date="${path}" data-part="y">${ys}</select><select data-date="${path}" data-part="m">${ms}</select></span>`;
+}
+
+/* ---------- resolve: the CV as it will print ---------- */
+function resolve(useSrc){
+  const L = useSrc ? S.inLang : S.outLang;
+  const tr = !useSrc && S.inLang !== S.outLang;
+  const g = (o, k) => (tr && o.t && o.t[k]) || o[k] || '';
+  const bl = b => useSrc ? b.src : (b.out || b.src);
+  const c = S.contact;
+  const name = L === 'en' ? (c.nameEn || c.nameZh) : (c.nameZh || c.nameEn);
+  const lvl = v => !v ? '' : (L === 'en' ? v : (LEVEL_ZH[v] || v));
+  const ents = arr => arr.map(e => ({org:g(e,'org'), title:g(e,'title'), city:g(e,'city'), dates:range(e, L),
+      bullets:e.bullets.map(bl).map(s => (s || '').trim()).filter(Boolean)})).filter(e => e.org || e.title || e.bullets.length);
+  let objective = useSrc ? S.summary.src : (S.summary.out || (S.inLang === S.outLang ? S.summary.src : ''));
+  return {lang:L, name, role:g(S.target, 'role'), objective:(objective || '').trim(),
+    contact:[c.email, c.phone, g(c, 'city'), c.linkedin].filter(Boolean),
+    education:S.education.map(e => ({school:g(e,'school'), degree:g(e,'degree'), note:g(e,'note'), dates:range(e, L), hasEnd:!!(e.end || e.present)})).filter(e => e.school || e.degree),
+    experience:ents(S.experience), projects:ents(S.projects),
+    skills:S.skills.map(s => ({name:g(s,'name'), level:lvl(s.level), proof:g(s,'proof')})).filter(s => s.name),
+    languages:S.languages.map(s => ({name:g(s,'name'), level:g(s,'level')})).filter(s => s.name),
+    certs:S.certs.map(s => g(s,'name')).filter(Boolean)};
+}
+
+/* ---------- scoring (the five criteria) ---------- */
+const STRONG = new Set('achieved analyzed answered arranged assessed audited balanced booked boosted budgeted built calculated coached collaborated collected compiled completed conducted coordinated created cut decreased delivered designed developed directed doubled drafted earned edited established evaluated executed expanded facilitated forecast forecasted founded generated graded grew guided hosted identified implemented improved increased initiated interviewed introduced invested launched led maintained managed mapped measured mentored modeled negotiated organized oversaw planned prepared presented processed produced promoted proposed raised ranked recorded recruited reduced reorganized researched resolved reviewed revised saved scheduled selected served simplified sold solved sourced streamlined structured supervised surveyed taught tested tracked trained translated tutored updated verified welcomed won wrote ran opened closed checked sorted filed counted greeted served packed priced restocked reconciled designed'.split(' '));
+const WEAK_EN = /\b(handled|assisted( with)?|helped|responsible for|participated in|worked on|involved in|duties included|tried to|hard[- ]working|i learned)\b/gi;
+const WEAK_ZH = /^(協助|負責|參與|幫忙|幫助|處理|學習|擔任|我)/;
+const hasNum = s => /[0-9０-９]/.test(s) || /[一二三四五六七八九十百千萬兩]+\s*(位|人|次|筆|件|個|場|小時|週|天|成|倍|%|名)/.test(s);
+function isStrong(b, L){
+  if (L === 'en') { const w = (b.trim().split(/\s+/)[0] || '').toLowerCase().replace(/[^a-z]/g, ''); if (w === 'i') return false; WEAK_EN.lastIndex = 0; if (WEAK_EN.test(b.slice(0, 30))) return false; return STRONG.has(w) || (/ed$/.test(w) && w.length > 4); }
+  return !WEAK_ZH.test(b.trim());
+}
+const vlen = s => { let n = 0; for (const ch of s || '') n += CJK.test(ch) ? 2 : 1; return n; };
+function estLines(R){
+  const W = 100, l = s => Math.max(1, Math.ceil(vlen(s) / W));
+  let n = 4;
+  if (R.objective) n += 2 + l(R.objective);
+  if (R.education.length) n += 2 + R.education.reduce((a, e) => a + 2 + (e.note ? l(e.note) : 0), 0);
+  for (const sec of [R.experience, R.projects]) if (sec.length) n += 2 + sec.reduce((a, e) => a + 2 + e.bullets.reduce((x, b) => x + l(b), 0), 0);
+  if (R.skills.length) n += 2 + R.skills.reduce((a, s) => a + l(s.name + s.level + s.proof), 0);
+  if (R.languages.length) n += 3;
+  if (R.certs.length) n += 2 + R.certs.length;
+  return n;
+}
+function score(R){
+  const L = R.lang, tips = {easy:[], right:[], proof:[], strong:[], results:[]};
+  const tip = (k, zh, en) => tips[k].push([zh, en]);
+  const ents = [...R.experience, ...R.projects], bullets = ents.flatMap(e => e.bullets);
+  const lines = estLines(R), pages = lines > 56 ? 2 : 1;
+  // Easy to read
+  let easy = 20;
+  if (pages > 1) { easy -= 8; tip('easy', '超過一頁：刪掉最弱的句子', 'Over one page: cut the weakest lines'); }
+  const longB = bullets.filter(b => vlen(b) > 175).length;
+  if (longB) { easy -= Math.min(6, longB * 2); tip('easy', `${longB} 句太長，每句一行就好`, `${longB} line(s) too long: one line each`); }
+  if (ents.some(e => e.bullets.length > 5)) { easy -= 2; tip('easy', '每段經歷最多 3–5 點', 'Keep 3–5 bullets per role'); }
+  if (!bullets.length) { easy -= 4; tip('easy', '經歷要用條列，不要寫成段落', 'Use bullets, not paragraphs'); }
+  // Right content
+  let right = 0;
+  if (R.name) right += 3; else tip('right', '缺少姓名', 'Add your name');
+  if (R.contact.some(x => /@/.test(x))) right += 3; else tip('right', '缺少 email', 'Add an email address');
+  if (R.contact.some(x => /\d{6,}/.test(x.replace(/\D/g, '')))) right += 2; else tip('right', '缺少電話', 'Add a phone number');
+  if (S.contact.city) right += 1; else tip('right', '加上所在城市', 'Add your city');
+  if (R.role || R.objective) right += 3; else tip('right', '寫出目標職位', 'Name the job you want');
+  if (R.education.length && R.education.every(e => e.hasEnd)) right += 3; else tip('right', '學歷要寫畢業年月', 'Add your (expected) graduation date');
+  if (ents.length) right += 3; else tip('right', '至少一段經歷或活動', 'Add at least one experience or activity');
+  if (R.skills.length) right += 2; else tip('right', '加入技能', 'Add skills');
+  const all = JSON.stringify(R);
+  if (/\[[^\]]{1,30}\]|XXX|TBD|待填/i.test(all)) { right -= 4; tip('right', '還有沒填的 [ ] 佔位字', 'Unfilled placeholder like [Month, Year]'); }
+  // Proof
+  let proof = 0;
+  if (R.skills.length) { const ok = R.skills.filter(s => s.level && s.proof).length; proof = Math.round(20 * ok / R.skills.length);
+    if (ok < R.skills.length) tip('proof', `${R.skills.length - ok} 項技能缺程度或證據`, `${R.skills.length - ok} skill(s) missing level or proof`); }
+  else tip('proof', '技能要附程度和證據', 'Give each skill a level and proof');
+  // Strong words
+  let strong = 0;
+  if (bullets.length) { const ok = bullets.filter(b => isStrong(b, L)).length; strong = Math.round(20 * ok / bullets.length);
+    let weak = 0; if (L === 'en') bullets.forEach(b => { const m = b.match(WEAK_EN); if (m) weak += m.length; });
+    strong -= Math.min(6, weak * 2);
+    if (ok < bullets.length) tip('strong', L === 'en' ? `${bullets.length - ok} 句開頭不是強動詞（如 Organized、Analyzed）` : `${bullets.length - ok} 句以「協助／負責／參與」開頭`, `${bullets.length - ok} line(s) don't start with a strong verb`);
+    if (weak) tip('strong', '避免 Handled、Assisted with、Responsible for', 'Avoid Handled, Assisted with, Responsible for'); }
+  else tip('strong', '還沒有條列句', 'No bullets yet');
+  // Results
+  let results = 0;
+  if (bullets.length) { const n = bullets.filter(hasNum).length; results = Math.round(20 * Math.min(1, n / (bullets.length * 0.6)));
+    if (results < 20) tip('results', `只有 ${n}/${bullets.length} 句有數字`, `Only ${n}/${bullets.length} lines have numbers`); }
+  else tip('results', '用數字呈現成果', 'Show results with numbers');
+  const c = v => Math.max(0, Math.min(20, v));
+  const cats = {easy:c(easy), right:c(right), proof:c(proof), strong:c(strong), results:c(results)};
+  const raw = Object.values(cats).reduce((a, b) => a + b, 0);
+  return {cats, tips, raw, final:Math.round(50 + raw / 2), pages};
+}
+
+/* ---------- preview ---------- */
+function paperHTML(R){
+  const H = R.lang === 'en' ? {obj:'PROFILE', edu:'EDUCATION', exp:'EXPERIENCE', proj:'PROJECTS & ACTIVITIES', sk:'SKILLS', la:'LANGUAGES', ce:'CERTIFICATES & AWARDS'}
+                            : {obj:'求職目標', edu:'學歷', exp:'經歷', proj:'專題與活動', sk:'技能', la:'語言能力', ce:'證照與獎項'};
+  const sec = t => `<div class="psec">${t}</div>`;
+  const ent = (l, r, sub, b, note) => `<div><div class="erow"><b>${esc(l)}</b><span>${esc(r)}</span></div>${sub ? `<div class="esub">${esc(sub)}</div>` : ''}${note ? `<div class="enote">${esc(note)}</div>` : ''}${b && b.length ? `<ul>${b.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '<div style="height:5px"></div>'}</div>`;
+  let h = `<div class="pname">${R.name ? esc(R.name) : '<span class="ph">Your Name</span>'}</div><div class="pcontact">${R.contact.map(esc).join(' &nbsp;|&nbsp; ') || '<span class="ph">email | phone | city</span>'}</div>`;
+  if (R.objective) h += sec(H.obj) + `<p class="pobj">${esc(R.objective)}</p>`;
+  if (R.education.length) h += sec(H.edu) + R.education.map(e => ent(e.school, e.dates, e.degree, [], e.note)).join('');
+  if (R.experience.length) h += sec(H.exp) + R.experience.map(e => ent(e.org, e.dates, [e.title, e.city].filter(Boolean).join(' · '), e.bullets)).join('');
+  if (R.projects.length) h += sec(H.proj) + R.projects.map(e => ent(e.org, e.dates, [e.title, e.city].filter(Boolean).join(' · '), e.bullets)).join('');
+  if (R.skills.length) h += sec(H.sk) + R.skills.map(s => `<div class="pskill"><b>${esc(s.name)}</b>${s.level ? ` (${esc(s.level)})` : ''}${s.proof ? ` — ${esc(s.proof)}` : ''}</div>`).join('');
+  if (R.languages.length) h += sec(H.la) + `<div>${R.languages.map(s => esc(s.name) + (s.level ? ` (${esc(s.level)})` : '')).join(' &nbsp;·&nbsp; ')}</div>`;
+  if (R.certs.length) h += sec(H.ce) + `<ul>${R.certs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  return h;
+}
+function light(v){ return v >= 16 ? 'g' : v >= 10 ? 'y' : 'r'; }
+function needsGen(){ const R = resolve(false); return R.lang === 'en' && CJK.test(JSON.stringify(R)); }
+function refresh(){
+  const R = resolve(false), sc = score(R);
+  const paper = $('#paper');
+  paper.innerHTML = paperHTML(R);
+  paper.style.fontFamily = R.lang === 'en' ? 'Arial,Helvetica,sans-serif' : '"Noto Sans TC",Arial,sans-serif';
+  if (paper.scrollHeight > 1130) paper.insertAdjacentHTML('beforeend', '<div class="cut">— 第 1 頁到此 · End of page 1 —</div>');
+  fitPaper();
+  let h = `<div class="score"><div class="big">${sc.final}<small> / 100</small></div><div><b>預估分數 Estimated score</b><div class="small">= 50 + 五項總分 ${sc.raw}/100 ÷ 2</div>`;
+  if (S.before) h += `<div style="margin-top:6px"><span class="ba">改前 Before ${S.before.final} → 改後 Now ${sc.final}</span></div>`;
+  h += `</div></div><div class="cats">`;
+  for (const k of Object.keys(CRIT)) { const v = sc.cats[k], t = sc.tips[k][0];
+    h += `<div class="cat"><span class="dot ${light(v)}"></span><div><div class="t">${CRIT[k][0]} ${CRIT[k][1]}</div>${t ? `<div class="s">${esc(t[0])}<br>${esc(t[1])}</div>` : '<div class="s good">很好 Good</div>'}</div><span class="n">${v}/20</span></div>`; }
+  h += '</div>';
+  if (needsGen()) h += `<div class="warn">還有中文沒轉成英文。到「完成匯出」按 <b>AI 產生完整履歷</b>。<br>Some text is still in Chinese: go to Finish and press <b>Generate my CV</b>.</div>`;
+  $('#scorecard').innerHTML = h;
+  $('#langPill').textContent = `${S.inLang === 'zh' ? '中文' : 'English'} 輸入 → ${S.outLang === 'zh' ? '中文' : 'English'} 履歷`;
+}
+function fitPaper(){
+  const w = $('#paperWrap').clientWidth, p = $('#paper'), k = Math.min(1, w / 794);
+  p.style.transform = `scale(${k})`; $('#paperWrap').style.height = Math.max(1123, p.scrollHeight) * k + 'px';
+}
+addEventListener('resize', fitPaper);
+let rt; function soon(){ clearTimeout(rt); rt = setTimeout(() => { save(); refresh(); }, 160); }
+
+/* ---------- step panels ---------- */
+const T = (zh, en) => `${zh} <span class="en">${en}</span>`;
+const inp = (k, ph = '', type = 'text') => `<input type="${type}" data-k="${k}" value="${esc(getP(k))}" placeholder="${esc(ph)}">`;
+const ta = (k, ph = '', rows = 2) => `<textarea data-k="${k}" rows="${rows}" placeholder="${esc(ph)}">${esc(getP(k))}</textarea>`;
+const zhIn = () => S.inLang === 'zh';
+const navBtns = (back = true, next = true) => `<div class="nav">${back ? `<button class="btn" data-act="go" data-to="${S.step - 1}">← 上一步 Back</button>` : '<span></span>'}${next ? `<button class="btn pri" data-act="go" data-to="${S.step + 1}">下一步 Next →</button>` : ''}</div>`;
+const langSel = () => `<div class="row"><div><label>我要用什麼語言填寫 <small>I will type in</small></label><select data-k="inLang"><option value="zh" ${S.inLang==='zh'?'selected':''}>中文</option><option value="en" ${S.inLang==='en'?'selected':''}>English</option></select></div>
+  <div><label>履歷要做成 <small>My CV will be in</small></label><select data-k="outLang"><option value="en" ${S.outLang==='en'?'selected':''}>English</option><option value="zh" ${S.outLang==='zh'?'selected':''}>中文</option></select></div></div>`;
+const aiBtn = (attrs, label) => `<button class="btn ai sm" ${attrs}>✨ ${label}</button>`;
+const aiSel = () => `<label>AI 來源 <small>Which AI?</small></label><select data-k="aiMode"><option value="auto" ${S.aiMode !== 'copy' ? 'selected' : ''}>${sample ? 'Claude（內建，直接用）Built-in Claude' : '自動 Auto'}</option><option value="copy" ${S.aiMode === 'copy' ? 'selected' : ''}>我自己的 AI（Gemini、ChatGPT…，複製貼上）My own AI (copy & paste)</option></select>
+  <p class="small">${useClaude() ? '用你自己的 Claude 帳號。Uses your own Claude account.' : '按 AI 按鈕會給你一段提示詞，貼到你自己的 AI，再把回答貼回來。AI buttons give you a prompt to paste into your own AI.'}</p>`;
+const useClaude = () => !!sample && S.aiMode !== 'copy';
+
+function stepStart(){
+  let h = `<div class="card"><h2>${T('做一份一頁的專業履歷', 'Build a one-page professional CV')}</h2>
+  <p class="hint">依照課堂的五個評分標準：易讀、內容正確、有證據、強動詞、有成果。右邊會即時顯示預覽和預估分數。<br><span class="en">Built on our five criteria: Easy to read, Right content, Proof, Strong words, Results.</span></p>
+  ${langSel()}
+  ${aiSel()}
+  <label style="margin-top:16px">你要怎麼開始？ <small>How do you want to start?</small></label>
+  <div class="choices"><button class="choice ${S.mode==='new'?'on':''}" data-act="mode" data-m="new"><b>✏️ 從頭開始</b>一步一步回答問題，做一份新履歷。<br><span class="en">Start from scratch</span></button>
+  <button class="choice ${S.mode==='upload'?'on':''}" data-act="mode" data-m="upload"><b>📄 上傳舊履歷</b>AI 讀取你的履歷，幫你改得更好。<br><span class="en">Upload my CV and improve it</span></button></div></div>`;
+  if (S.mode === 'upload') {
+    h += `<div class="card"><h3>${T('上傳舊履歷', 'Upload your CV')}</h3>
+    <div class="drop"><p style="margin:0 0 8px">PDF、Word (.docx) 或照片（可選 2 張）<br><span class="en">PDF, Word or photos (up to 2 pages)</span></p><input type="file" id="upFile" accept=".pdf,.docx,image/jpeg,image/png,image/webp" multiple></div>
+    <label>或直接貼上文字 <small>Or paste the text</small></label><textarea id="upText" rows="5" placeholder="把履歷文字貼在這裡 Paste your CV text here"></textarea>
+    <p class="small">🔒 PDF／Word／貼上的文字：電話和 email 會先在你的瀏覽器裡遮掉，再送給 AI。照片會整張送給 AI 讀取。內容只存在你自己的瀏覽器。<br>Phone and email are masked in your browser before text is sent to AI. Photos are sent as they are. Nothing is stored on a server.</p>
+    <button class="btn pri" data-act="parse">🔍 分析我的履歷 Analyze my CV</button> <span id="parseStatus" class="small"></span></div>`;
+    if (S.before) {
+      h += `<div class="card"><h3>${T('診斷結果', 'Diagnosis')}</h3><p>改前分數 Before: <b style="font-size:22px">${S.before.final}</b> / 100</p>`;
+      if (S.issues.length) h += `<ul class="issues">${S.issues.map(i => `<li><b>${esc(i.criterion)}</b>：${esc(i.zh)}<br><span class="en">${esc(i.en)}</span></li>`).join('')}</ul>`;
+      h += `<p class="hint">下一步請檢查 AI 讀到的內容有沒有錯或漏掉，再一項一項改好。<br><span class="en">Next, check what AI read, then improve each part.</span></p>${navBtns(false)}</div>`;
+    }
+  } else if (S.mode === 'new') h += navBtns(false);
+  h += `<div class="card"><h3>${T('看範例', 'Try an example')}</h3><p class="hint">課堂活動：先載入「待改範例」，找出它違反哪些標準。<br><span class="en">Class activity: load the weak example and find what breaks the five criteria.</span></p>
+  <button class="btn sm" data-act="sample" data-s="good">👍 好範例 Strong example</button> <button class="btn sm" data-act="sample" data-s="bad">🔧 待改範例 Weak example</button>
+  <hr><button class="btn sm" data-act="import">📂 載入存檔 Open saved file</button> <button class="btn sm del" data-act="reset">清空重來 Start over</button></div>`;
+  return h;
+}
+function stepBasics(){
+  const c = 'contact';
+  return `<div class="card"><h2>${T('基本資料', 'Basics')}</h2><p class="hint">Right content：聯絡方式要完整，email 要專業（不要用暱稱）。<br><span class="en">Complete contact details; use a professional email.</span></p>
+  <div class="row"><div><label>中文姓名 <small>Chinese name</small></label>${inp(c+'.nameZh', '王小明')}</div><div><label>英文姓名 <small>English name (as on passport)</small></label>${inp(c+'.nameEn', 'Hsiao-Ming Wang')}</div></div>
+  <div class="row"><div><label>Email</label>${inp(c+'.email', 'firstname.lastname@gmail.com', 'email')}</div><div><label>電話 <small>Phone</small></label>${inp(c+'.phone', '+886 912 345 678')}</div></div>
+  <div class="row"><div><label>城市 <small>City</small></label>${inp(c+'.city', zhIn() ? '新北市' : 'New Taipei City, Taiwan')}</div><div><label>LinkedIn <small>（選填 optional）</small></label>${inp(c+'.linkedin', 'linkedin.com/in/yourname')}</div></div></div>
+  <div class="card"><h3>${T('你想應徵什麼工作？', 'What job do you want?')}</h3><p class="hint">寫得越具體，AI 越能幫你挑對重點。<br><span class="en">The more specific, the better the advice.</span></p>
+  <label>目標職位 <small>Target job</small></label>${inp('target.role', zhIn() ? '例：銀行儲備幹部、外商行銷助理' : 'e.g. Management Associate, retail banking')}
+  <label>想讓雇主知道的一兩件事 <small>One or two things employers should know (optional)</small></label>${ta('summary.src', zhIn() ? '例：主修財金，有兩年補習班行政經驗，英文多益 860' : 'e.g. Finance major with two years of admin work; TOEIC 860')}
+  ${S.summary.out ? `<div class="aiout"><div class="tag">AI 產生的開場 PROFILE</div>${ta('summary.out', '', 3)}<p class="coach">🧑‍🏫 ${esc(S.summary.coachZh)}<br><span class="en">${esc(S.summary.coachEn)}</span></p></div>` : ''}</div>${navBtns()}`;
+}
+function stepEdu(){
+  let h = `<div class="card"><h2>${T('學歷', 'Education')}</h2><p class="hint">一定要寫畢業年月（還沒畢業就寫預計畢業）。可以加 GPA、獎學金、相關課程。<br><span class="en">Always include your (expected) graduation month.</span></p>`;
+  S.education.forEach((e, i) => { const p = `education.${i}`;
+    h += `<div class="ent"><div class="enthead"><b>#${i + 1}</b>${S.education.length > 1 ? `<button class="btn sm del" data-act="del" data-list="education" data-i="${i}">刪除 Remove</button>` : ''}</div>
+    <label>學校 <small>School</small></label>${inp(p+'.school', zhIn() ? '輔仁大學' : 'Fu Jen Catholic University')}
+    <label>學位與科系 <small>Degree and major</small></label>${inp(p+'.degree', zhIn() ? '金融與國際企業學系 學士' : 'B.A. in Finance and International Business')}
+    <div class="row"><div><label>開始 <small>Start</small></label>${dateSel(p+'.start', e.start)}</div><div><label>畢業（預計） <small>Graduation (expected)</small></label>${dateSel(p+'.end', e.end)}</div></div>
+    <label>補充 <small>GPA, honors, coursework (optional)</small></label>${inp(p+'.note', zhIn() ? '例：GPA 3.8/4.3、書卷獎 2024' : 'GPA 3.8/4.3; Dean\'s List 2024')}</div>`; });
+  return h + `<button class="btn sm" data-act="add" data-list="education">＋ 新增學歷 Add education</button></div>${navBtns()}`;
+}
+function entries(sec){
+  const isExp = sec === 'experience';
+  let h = '';
+  S[sec].forEach((e, i) => { const p = `${sec}.${i}`;
+    h += `<div class="ent"><div class="enthead"><b>#${i + 1}</b><button class="btn sm del" data-act="del" data-list="${sec}" data-i="${i}">刪除 Remove</button></div>
+    <div class="row"><div><label>${isExp ? '公司／單位 <small>Organization</small>' : '專題／社團名稱 <small>Project or club</small>'}</label>${inp(p+'.org', isExp ? (zhIn() ? '例：陽光補習班' : 'Sunrise Tutoring Center') : (zhIn() ? '例：輔大投資研究社' : 'FJU Investment Club'))}</div>
+    <div><label>${isExp ? '職稱 <small>Job title</small>' : '你的角色 <small>Your role</small>'}</label>${inp(p+'.title', isExp ? (zhIn() ? '例：行政助理（兼職）' : 'Part-Time Administrative Assistant') : (zhIn() ? '例：研究組組員' : 'Research Team Member'))}</div></div>
+    <div class="row"><div><label>開始 <small>Start</small></label>${dateSel(p+'.start', e.start)}</div><div><label>結束 <small>End</small></label>${e.present ? '' : dateSel(p+'.end', e.end)}<label class="chk"><input type="checkbox" data-k="${p}.present" ${e.present ? 'checked' : ''}> 目前仍在 Present</label></div></div>
+    <label>你做了什麼？一點寫一件事 <small>What did you do? One thing per line</small></label>`;
+    e.bullets.forEach((b, j) => { const bp = `${p}.bullets.${j}`;
+      h += `<div class="bullet">${ta(bp+'.src', zhIn() ? '例：每週接聽家長電話，安排試聽課' : 'e.g. answered parent calls and booked trial classes')}
+      <div class="brow">${aiBtn(`data-act="improve" data-id="${bp}"`, b.out ? '再改一次 Improve again' : 'AI 幫我改寫 Improve')}${e.bullets.length > 1 ? `<button class="btn sm del" data-act="delB" data-id="${bp}">刪除</button>` : ''}</div>`;
+      if (b.out) h += `<div class="aiout"><div class="tag">AI 版本（可直接修改）· AI VERSION (edit freely)</div>${ta(bp+'.out', '', 2)}
+        ${b.coachZh ? `<p class="coach">🧑‍🏫 ${esc(b.coachZh)}<br><span class="en">${esc(b.coachEn)}</span></p>` : ''}
+        ${b.qZh ? `<div class="ask"><p>❓ ${esc(b.qZh)}<br><span class="en">${esc(b.qEn)}</span></p>${inp(bp+'.ans', zhIn() ? '只寫真實的數字，例如：每週約 40 通' : 'Real numbers only, e.g. about 40 calls a week')}<div class="brow">${aiBtn(`data-act="improve" data-id="${bp}"`, '用我的回答再改 Use my answer')}</div></div>` : ''}
+        <div class="brow"><button class="btn sm" data-act="undo" data-id="${bp}">↩ 用回我的原文 Use my original</button></div></div>`;
+      h += `</div>`; });
+    h += `<button class="btn sm" data-act="addB" data-id="${p}">＋ 再加一點 Add a line</button></div>`; });
+  return h;
+}
+function stepExp(){
+  return `<div class="card"><h2>${T('經歷', 'Experience')}</h2><p class="hint">打工、實習、家裡的店都算。用「動作 + 做了什麼 + 數字」：<br><span class="bad">✗ 負責接電話</span> → <span class="good">✓ Answered 40+ parent calls per week and booked 12 trial classes a month</span><br><span class="en">Part-time jobs, internships and family business all count. Use action + task + number.</span></p>
+  ${entries('experience')}<button class="btn sm" data-act="add" data-list="experience">＋ 新增經歷 Add experience</button></div>${navBtns()}`;
+}
+function stepProj(){
+  return `<div class="card"><h2>${T('專題與活動', 'Projects & Activities')}</h2>
+  <div class="tip">💡 <b>經驗挖掘 Find your experience</b>：沒有工作經驗也沒關係，這些都可以寫：<ul><li>課堂專題、報告、研究 Class projects and research</li><li>社團幹部、系學會、營隊 Clubs and student association</li><li>志工、服務學習 Volunteering</li><li>比賽、競賽、黑客松 Competitions</li><li>交換、遊學、語言課程 Exchange and study abroad</li><li>幫家裡的店做事 Helping a family business</li></ul></div>
+  ${entries('projects')}<button class="btn sm" data-act="add" data-list="projects">＋ 新增專題或活動 Add project or activity</button></div>${navBtns()}`;
+}
+function stepSkills(){
+  let h = `<div class="card"><h2>${T('技能', 'Skills')}</h2><p class="hint">Proof：每項技能都要有<b>程度</b>和<b>證據</b>，證明你真的會。<br><span class="en">Every skill needs a level and proof.</span><br><span class="bad">✗ Excel</span> → <span class="good">✓ Excel (Advanced) — built a 150-student attendance tracker with VLOOKUP</span></p>`;
+  S.skills.forEach((s, i) => { const p = `skills.${i}`;
+    h += `<div class="row3"><div><label>技能 <small>Skill</small></label>${inp(p+'.name', 'Excel')}</div><div><label>程度 <small>Level</small></label><select data-k="${p}.level">${LEVELS.map(([v, l]) => `<option value="${v}" ${s.level === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+    <div><label>證據 <small>Proof</small></label>${inp(p+'.proof', zhIn() ? '例：做過 150 人的出缺勤表' : 'built a 150-student attendance tracker')}</div></div>
+    ${S.skills.length > 1 ? `<button class="btn sm del" data-act="del" data-list="skills" data-i="${i}" style="margin-top:4px">刪除</button>` : ''}`; });
+  h += `<p><button class="btn sm" data-act="add" data-list="skills">＋ 新增技能 Add skill</button></p></div>`;
+  h += `<div class="card"><h3>${T('語言能力', 'Languages')}</h3><p class="hint">用檢定成績，不要只寫「流利」。<br><span class="en">Use test scores (TOEIC 860, JLPT N3) instead of "fluent".</span></p>`;
+  S.languages.forEach((s, i) => { const p = `languages.${i}`;
+    h += `<div class="row"><div><label>語言 <small>Language</small></label>${inp(p+'.name', zhIn() ? '英文' : 'English')}</div><div><label>程度／成績 <small>Level or score</small></label>${inp(p+'.level', 'TOEIC 860')}</div></div>${S.languages.length > 1 ? `<button class="btn sm del" data-act="del" data-list="languages" data-i="${i}">刪除</button>` : ''}`; });
+  h += `<p><button class="btn sm" data-act="add" data-list="languages">＋ 新增語言 Add language</button></p></div>`;
+  h += `<div class="card"><h3>${T('證照與獎項（選填）', 'Certificates & awards (optional)')}</h3>`;
+  S.certs.forEach((s, i) => { h += `<div class="row" style="grid-template-columns:1fr auto;align-items:center">${inp(`certs.${i}.name`, zhIn() ? '例：證券商業務員（2025）' : 'e.g. Securities Specialist License (2025)')}<button class="btn sm del" data-act="del" data-list="certs" data-i="${i}">刪除</button></div>`; });
+  return h + `<p><button class="btn sm" data-act="add" data-list="certs">＋ 新增 Add</button></p></div>${navBtns()}`;
+}
+function stepFinish(){
+  const R = resolve(false), sc = score(R), tr = S.inLang !== S.outLang;
+  let h = `<div class="card"><h2>${T('完成匯出', 'Finish')}</h2>${langSel()}${aiSel()}
+  <p class="hint" style="margin-top:12px">${tr ? `AI 會把全部內容轉成${S.outLang === 'en' ? '英文' : '中文'}，並把每一句改成強動詞＋成果的寫法，附上教練說明。` : 'AI 會把每一句改成強動詞＋成果的寫法，並寫出開場的 Profile，附上教練說明。'}<br><span class="en">AI ${tr ? 'translates everything and ' : ''}rewrites each line with a strong verb and a result, with coaching notes. It never invents facts.</span></p>
+  ${aiBtn('data-act="genAll"', 'AI 產生完整履歷 Generate my CV')} <span id="genStatus" class="small"></span></div>`;
+  const qs = [...S.experience, ...S.projects].flatMap(e => e.bullets).filter(b => b.qZh && b.out);
+  if (qs.length) h += `<div class="card"><h3>${T(`還有 ${qs.length} 個問題等你回答`, `${qs.length} question(s) for you`)}</h3><p class="hint">回到「經歷」或「專題活動」，填上真實的數字，再按「用我的回答再改」。<br><span class="en">Go back to Experience or Projects, add the real numbers and press "Use my answer".</span></p><ul>${qs.slice(0, 6).map(b => `<li>${esc(b.qZh)}</li>`).join('')}</ul></div>`;
+  h += `<div class="card"><h3>${T('匯出前確認', 'Before you export')}</h3>
+  ${S.before ? `<p><span class="ba">改前 Before ${S.before.final} → 改後 Now ${sc.final}</span></p>` : ''}
+  ${sc.pages > 1 ? '<div class="warn">內容超過一頁，請刪掉比較弱的句子。Your CV is longer than one page: cut the weakest lines.</div>' : ''}
+  <label class="chk" style="font-size:14px"><input type="checkbox" data-k="honest" ${S.honest ? 'checked' : ''}> 我確認履歷上每一句都是真的，數字都是我自己提供的。<br>I confirm every line is true and every number is mine.</label>
+  <div class="brow" style="margin-top:12px"><button class="btn pri" data-act="pdf" ${S.honest ? '' : 'disabled'}>⬇️ 下載 PDF Download PDF</button><button class="btn" data-act="copy" ${S.honest ? '' : 'disabled'}>📋 複製文字 Copy text</button></div>
+  <p class="small">檔名建議 Suggested file name：${esc(fileBase())}.pdf</p><hr>
+  <h3>${T('存檔與交作業', 'Save and hand in')}</h3><p class="hint">存檔可以下次載入繼續改，也可以傳給老師批改。<br><span class="en">Save your work to continue later, or send the file to your teacher.</span></p>
+  <button class="btn" data-act="saveJson">💾 存成檔案 Save progress (.json)</button> <button class="btn" data-act="import">📂 載入存檔 Open saved file</button>
+  <textarea id="copyBox" rows="6" style="display:none;margin-top:10px"></textarea></div>${navBtns(true, false)}`;
+  return h;
+}
+function render(){
+  $('#steps').innerHTML = STEPS.map((s, i) => `<button class="${i === S.step ? 'on' : ''}" data-act="go" data-to="${i}">${i + 1}. ${s}</button>`).join('');
+  $('#panel').innerHTML = [stepStart, stepBasics, stepEdu, stepExp, stepProj, stepSkills, stepFinish][S.step]();
+  refresh();
+}
+
+/* ---------- events ---------- */
+$('#left').addEventListener('input', e => {
+  const k = e.target.dataset.k; if (!k) return;
+  setP(k, e.target.type === 'checkbox' ? e.target.checked : e.target.value);
+  if (['inLang', 'outLang', 'honest', 'aiMode'].includes(k) || /\.present$/.test(k)) { save(); render(); } else soon();
+});
+$('#left').addEventListener('change', e => {
+  const d = e.target.dataset.date; if (!d) return;
+  const box = e.target.parentNode, y = box.querySelector('[data-part=y]').value, m = box.querySelector('[data-part=m]').value;
+  setP(d, y ? y + (m ? '-' + m : '') : ''); soon();
+});
+$('#left').addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+  const a = b.dataset.act;
+  if (a === 'go') { S.step = Math.max(0, Math.min(6, +b.dataset.to)); save(); render(); scrollTo({top:0, behavior:'smooth'}); return; }
+  if (a === 'mode') { S.mode = b.dataset.m; if (S.mode === 'new') S.before = null; save(); render(); return; }
+  if (a === 'add') { const L = b.dataset.list; S[L].push({education:newEdu, experience:newExp, projects:newExp, skills:newSkill, languages:newLang, certs:newCert}[L]()); save(); render(); return; }
+  if (a === 'del') { S[b.dataset.list].splice(+b.dataset.i, 1); save(); render(); return; }
+  if (a === 'addB') { getP(b.dataset.id).bullets.push(newB()); save(); render(); return; }
+  if (a === 'delB') { const p = b.dataset.id.split('.'), j = +p.pop(); p.pop(); getP(p.join('.')).bullets.splice(j, 1); save(); render(); return; }
+  if (a === 'undo') { Object.assign(getP(b.dataset.id), {out:'', coachZh:'', coachEn:'', qZh:'', qEn:''}); save(); render(); return; }
+  if (a === 'improve') return improveOne(b);
+  if (a === 'genAll') return genAll(b);
+  if (a === 'parse') return doParse(b);
+  if (a === 'sample') { loadSample(b.dataset.s); return; }
+  if (a === 'reset') { if (b.dataset.sure) { S = blank(); save(); render(); toast('已清空 Cleared'); } else { b.dataset.sure = 1; b.textContent = '再按一次確認清空 Click again to confirm'; } return; }
+  if (a === 'pdf') return exportPdf(b);
+  if (a === 'copy') return copyText();
+  if (a === 'saveJson') return saveJson();
+  if (a === 'import') { $('#jsonIn').click(); return; }
+});
+$('#jsonIn').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { const d = JSON.parse(await f.text()); if (d.v !== 1) throw 0; S = Object.assign(blank(), d); save(); render(); toast('已載入 Loaded'); }
+  catch (_) { toast('這不是 CV Coach 的存檔 This is not a CV Coach file'); }
+  e.target.value = '';
+});
+
+/* ---------- AI ---------- */
+const RULES = `You are a CV coach for university students in Taiwan taking the English-taught course "Financial Market and Global Business". The professor grades CVs on five criteria: Easy to read, Right content, Proof, Strong words, Results.
+Hard rules:
+- Never invent facts, numbers, employers, tools, scores or achievements. Use only what the student wrote. If a number or proof would help but the student gave none, write the line without it and ask ONE short question for the real number.
+- English bullets: start with a strong past-tense action verb (present tense only for the student's current job), one line, at most about 22 words, no "I", never "responsible for", "handled", "assisted with", "helped", "participated in".
+- Chinese bullets (Traditional Chinese, Taiwan usage): start with a concrete action verb such as 規劃、整理、分析、建立、帶領, never start with 協助／負責／參與／我; one line.
+- Keep proper nouns accurate; use the well-known official English name when there is one (輔仁大學 = Fu Jen Catholic University).
+- Coaching notes: one short sentence each, coach_zh in Traditional Chinese and coach_en in English, saying what you changed and which criterion it serves.`;
+
+function aiItemsAll(onlyBullet){
+  const tr = S.inLang !== S.outLang, it = [];
+  const F = (path, key, ctx) => { const o = getP(path), v = o && o[key]; if (tr && v && String(v).trim()) it.push({id:`${path}.${key}`, kind:'field', text:v, context:ctx}); };
+  const B = (sec, i, j) => { const e = S[sec][i], b = e.bullets[j]; if (!b.src.trim()) return;
+    const x = {id:`${sec}.${i}.bullets.${j}`, kind:'bullet', text:b.src, context:{section:sec === 'experience' ? 'work experience' : 'project or activity', organization:e.org, role:e.title}};
+    if (b.ans && b.ans.trim()) x.student_answer = b.ans.trim(); if (b.out) x.previous_version = b.out; it.push(x); };
+  if (onlyBullet) { const [sec, i, , j] = onlyBullet.split('.'); F(`${sec}.${i}`, 'org', 'organization name'); F(`${sec}.${i}`, 'title', 'job title or role'); B(sec, +i, +j); return it; }
+  F('contact', 'city', 'city and country'); F('target', 'role', 'target job title');
+  S.education.forEach((e, i) => { F(`education.${i}`, 'school', 'school name'); F(`education.${i}`, 'degree', 'degree and major'); F(`education.${i}`, 'note', 'education note: GPA, honors, coursework'); });
+  ['experience', 'projects'].forEach(sec => S[sec].forEach((e, i) => { F(`${sec}.${i}`, 'org', 'organization name'); F(`${sec}.${i}`, 'title', 'job title or role'); F(`${sec}.${i}`, 'city', 'city'); e.bullets.forEach((_, j) => B(sec, i, j)); }));
+  S.skills.forEach((s, i) => { F(`skills.${i}`, 'name', 'skill name'); F(`skills.${i}`, 'proof', 'short proof phrase for the skill, keep the facts'); });
+  S.languages.forEach((s, i) => { F(`languages.${i}`, 'name', 'language name'); F(`languages.${i}`, 'level', 'language level; keep test names and scores exactly'); });
+  S.certs.forEach((s, i) => F(`certs.${i}`, 'name', 'certificate or award'));
+  const hl = [...S.experience, ...S.projects].flatMap(e => e.bullets.map(b => b.src)).filter(Boolean).slice(0, 10);
+  if (S.target.role || S.summary.src || hl.length) it.push({id:'summary', kind:'summary', text:S.summary.src || '', context:{target_job:S.target.role, education:S.education.map(e => e.degree + ' ' + e.school), highlights:hl}});
+  return it;
+}
+function aiPrompt(items){
+  const lang = S.outLang === 'en' ? 'English' : 'Traditional Chinese (Taiwan)';
+  return `${RULES}
+
+Target language of the CV: ${lang}.
+Student's target job: ${S.target.role || '(not given)'}
+
+Items (JSON):
+${JSON.stringify(items)}
+
+For every item return the CV text in the target language:
+- kind "field": translate faithfully, or keep it if it is already in the target language. Keep it short. No coaching.
+- kind "bullet": rewrite as one strong CV bullet. If student_answer is given, use it as a fact. Give coach_zh and coach_en. If a real number or proof is still missing, give ask_zh and ask_en (one short question); otherwise leave them "".
+- kind "summary": write a 2-sentence CV profile that names the target job and the student's strongest real experience; nothing invented. Give coach_zh and coach_en.
+Reply with only JSON in this shape:
+{"items":{"<id>":{"text":"","coach_zh":"","coach_en":"","ask_zh":"","ask_en":""}}}`;
+}
+function applyAI(res, sent){
+  const ok = new Set(sent.map(x => x.id)); let n = 0;
+  for (const [id, v] of Object.entries((res && res.items) || {})) {
+    if (!ok.has(id) || !v || typeof v.text !== 'string' || !v.text.trim()) continue; n++;
+    if (id === 'summary') { Object.assign(S.summary, {out:v.text.trim(), coachZh:v.coach_zh || '', coachEn:v.coach_en || ''}); continue; }
+    const o = getP(id);
+    if (o && typeof o === 'object' && 'src' in o) { Object.assign(o, {out:v.text.trim(), coachZh:v.coach_zh || '', coachEn:v.coach_en || '', qZh:v.ask_zh || '', qEn:v.ask_en || ''}); continue; }
+    const a = id.split('.'), k = a.pop(), p = getP(a.join('.')); if (p && typeof p === 'object') { p.t = p.t || {}; p.t[k] = v.text.trim(); }
+  }
+  return n;
+}
+const NO_CLAUDE = ['not_granted', 'sampling_disabled', 'not_declared', 'capability_disabled', 'capability_removed'];
+async function runAI(prompt, opts = {}){
+  if (useClaude()) {
+    try { return await sample.json(prompt, opts); }
+    catch (e) { if (!NO_CLAUDE.includes(e && e.code)) throw e; S.aiMode = 'copy'; save(); toast('改用你自己的 AI：複製貼上。Switching to your own AI.', 5000); }
+  }
+  return copyFlow(prompt, !!opts.images);
+}
+function parseJSON(t){
+  t = String(t || '').trim(); const f = t.match(/```(?:json)?\s*([\s\S]*?)```/); if (f) t = f[1].trim();
+  try { return JSON.parse(t); } catch (_) {}
+  const a = t.indexOf('{'), b = t.lastIndexOf('}'); if (a >= 0 && b > a) return JSON.parse(t.slice(a, b + 1));
+  throw new Error('no json');
+}
+function copyFlow(prompt, withImages){
+  const full = prompt + (withImages ? '\n\n(The CV is in the photo(s) I attached to this message.)' : '') + '\n\nImportant: reply with ONLY the JSON, no other words.';
+  const m = $('#modal'); $('#mPrompt').value = full; $('#mAnswer').value = ''; $('#mErr').textContent = ''; $('#mCopied').textContent = '';
+  $('#mImg').style.display = withImages ? 'list-item' : 'none'; m.style.display = 'flex';
+  return new Promise((ok, no) => {
+    const close = () => { m.style.display = 'none'; $('#mApply').onclick = $('#mCancel').onclick = $('#mCopy').onclick = null; };
+    $('#mCopy').onclick = async () => { try { await navigator.clipboard.writeText(full); $('#mCopied').textContent = '已複製 Copied ✓'; } catch (_) { const d = m.querySelector('details'); d.open = true; $('#mPrompt').select(); $('#mCopied').textContent = '請手動複製下方文字 Copy the text manually'; } };
+    $('#mCancel').onclick = () => { close(); no({code:'cancelled'}); };
+    $('#mApply').onclick = () => { try { const r = parseJSON($('#mAnswer').value); close(); ok(r); } catch (_) { $('#mErr').textContent = '讀不到 JSON，請把 AI 的回答完整貼上（包含 { 和 }）。Could not find JSON: paste the whole answer.'; } };
+  });
+}
+function errMsg(e){
+  const m = {not_granted:'你沒有允許這個頁面使用 Claude。Claude access was not allowed.', rate_limited:'使用太頻繁，請稍後再試。Too many requests: try again later.',
+    invalid_json:'AI 回覆讀不出來，請再試一次。Could not read the answer: try again.', image_rejected:'這張圖片無法使用，請換一張。This image cannot be used.',
+    images_unavailable:'這裡不能傳送圖片，請改用 PDF 或貼上文字。Images are not available here.', prompt_too_large:'內容太長，請分段貼上。Too much text at once.',
+    refused:'AI 無法處理這段內容，請修改後再試。AI could not handle this text.', cancelled:'已取消 Cancelled', unavailable:'AI 需要在 Claude 內開啟這個頁面。Open this page in Claude to use AI.'};
+  return m[e && e.code] || '發生錯誤，請再試一次。Something went wrong: try again.';
+}
+async function withBusy(btn, label, fn){
+  if (busy) { toast('AI 正在處理中 AI is still working…'); return; }
+  busy = true; const old = btn.innerHTML; btn.disabled = true; btn.innerHTML = `<span class="spin"></span>${label}`;
+  try { await fn(); } catch (e) { if (!(e && e.code === 'cancelled')) { console.warn(e); toast(errMsg(e), 5000); } }
+  finally { busy = false; btn.disabled = false; btn.innerHTML = old; }
+}
+function improveOne(btn){
+  const id = btn.dataset.id;
+  if (!getP(id).src.trim()) { toast('先寫下你做了什麼 Write what you did first'); return; }
+  return withBusy(btn, '思考中 Thinking…', async () => {
+    const items = aiItemsAll(id); const res = await runAI(aiPrompt(items), {modelTier:'quick'});
+    if (!applyAI(res, items)) throw {code:'invalid_json'};
+    save(); render();
+  });
+}
+function genAll(btn){
+  const items = aiItemsAll();
+  if (!items.length) { toast('先填一些內容 Fill in some content first'); return; }
+  return withBusy(btn, '產生中，約 30–60 秒 Generating…', async () => {
+    $('#genStatus').textContent = useClaude() ? 'AI 正在讀你的 ' + items.length + ' 個項目… Reading ' + items.length + ' items…' : '等你把 AI 的回答貼回來 Waiting for your AI…';
+    const res = await runAI(aiPrompt(items), {modelTier:'default'});
+    const n = applyAI(res, items); save(); render();
+    toast(`完成！更新了 ${n} 項。Done: ${n} items updated.`);
+  });
+}
+
+/* ---------- upload & parse ---------- */
+function loadScript(src){ return new Promise((ok, no) => { if (document.querySelector(`script[src="${src}"]`)) return ok(); const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); }); }
+async function pdfText(file){
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const doc = await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise; let out = '';
+  for (let i = 1; i <= Math.min(doc.numPages, 4); i++) { const c = await (await doc.getPage(i)).getTextContent(); out += c.items.map(x => x.str + (x.hasEOL ? '\n' : ' ')).join('') + '\n\n'; }
+  return out.trim();
+}
+async function docxText(file){ await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js'); return (await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()})).value; }
+function mask(text){
+  const found = {};
+  text = text.replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g, m => { found.email = found.email || m; return '[EMAIL]'; });
+  text = text.replace(/\+?\d[\d\s()-]{7,}\d/g, m => { const d = m.replace(/\D/g, ''); if (d.length < 8 || /^\s*\d{4}\s*-\s*\d{4}\s*$/.test(m)) return m; found.phone = found.phone || m.trim(); return '[PHONE]'; });
+  return {text, found};
+}
+const PARSE = `Read this student's CV and return its content as JSON. Keep the student's own words and language exactly: do not translate, do not improve, do not add anything. If experience is written as a paragraph, split it into separate sentences, one per bullet, keeping the words.
+Dates: "YYYY-MM", or "YYYY" if only the year is given, or "" if missing or a placeholder. "end_present": true for "Present" or "至今".
+Shape:
+{"lang":"zh or en (the main language of the CV)","name":"","city":"","linkedin":"","target_role":"","summary":"",
+"education":[{"school":"","degree":"","start":"","end":"","end_present":false,"note":""}],
+"experience":[{"org":"","title":"","city":"","start":"","end":"","end_present":false,"bullets":[""]}],
+"projects":[same shape as experience: academic projects, clubs, volunteering, competitions, exchange],
+"skills":[{"name":"","level":"Basic, Intermediate, Advanced, Expert or empty","proof":""}],
+"languages":[{"name":"","level":""}],
+"certs":[""],
+"issues":[{"criterion":"Easy to read | Right content | Proof | Strong words | Results","zh":"一句繁體中文說明","en":"One English sentence"}]}
+"issues": up to 6 problems you can see against the five criteria, such as: more than one page, long paragraphs, coloured or two-column template, icons or photo, unfilled placeholders like [Month, Year], no target job, skills without level or proof, weak verbs, no numbers.
+Contact details may appear as [EMAIL] and [PHONE]; leave them out.`;
+function normDate(d){ d = String(d || '').trim(); return /^\d{4}(-\d{2})?$/.test(d) ? d : ''; }
+function fillFromParse(r, found){
+  const keepOut = S.outLang; S = blank(); S.outLang = keepOut; S.mode = 'upload';
+  S.inLang = r.lang === 'en' ? 'en' : 'zh';
+  const nm = String(r.name || ''); if (CJK.test(nm)) S.contact.nameZh = nm; else S.contact.nameEn = nm;
+  Object.assign(S.contact, {email:found.email || '', phone:found.phone || '', city:r.city || '', linkedin:r.linkedin || ''});
+  S.target.role = r.target_role || ''; S.summary.src = r.summary || '';
+  const arr = x => Array.isArray(x) ? x : [];
+  S.education = arr(r.education).map(e => Object.assign(newEdu(), {school:e.school || '', degree:e.degree || '', start:normDate(e.start), end:normDate(e.end), present:!!e.end_present, note:e.note || ''}));
+  const ex = e => Object.assign(newExp(), {org:e.org || '', title:e.title || '', city:e.city || '', start:normDate(e.start), end:normDate(e.end), present:!!e.end_present, bullets:arr(e.bullets).filter(Boolean).map(s => newB(String(s)))});
+  S.experience = arr(r.experience).map(ex); S.projects = arr(r.projects).map(ex);
+  [...S.experience, ...S.projects].forEach(e => { if (!e.bullets.length) e.bullets.push(newB()); });
+  S.skills = arr(r.skills).map(s => Object.assign(newSkill(), {name:s.name || '', level:['Basic','Intermediate','Advanced','Expert'].includes(s.level) ? s.level : '', proof:s.proof || ''}));
+  S.languages = arr(r.languages).map(s => Object.assign(newLang(), {name:s.name || '', level:s.level || ''}));
+  S.certs = arr(r.certs).filter(Boolean).map(s => Object.assign(newCert(), {name:String(s)}));
+  if (!S.education.length) S.education.push(newEdu()); if (!S.experience.length) S.experience.push(newExp()); if (!S.skills.length) S.skills.push(newSkill());
+  S.issues = arr(r.issues).slice(0, 6).filter(i => i && i.zh);
+  S.before = score(resolve(true));
+}
+function doParse(btn){
+  const files = [...($('#upFile').files || [])], pasted = $('#upText').value.trim();
+  if (!files.length && !pasted) { toast('請選擇檔案或貼上文字 Choose a file or paste text'); return; }
+  return withBusy(btn, '分析中，約 30–60 秒 Analyzing…', async () => {
+    let text = pasted, images = null; const st = $('#parseStatus');
+    const f = files[0];
+    if (f && /\.pdf$/i.test(f.name)) { st.textContent = '讀取 PDF… Reading PDF…'; text = await pdfText(f); }
+    else if (f && /\.docx$/i.test(f.name)) { st.textContent = '讀取 Word… Reading Word…'; text = await docxText(f); }
+    else if (f && f.type.startsWith('image/')) {
+      if (useClaude() && !imgLimits) throw {code:'images_unavailable'};
+      images = files.filter(x => x.type.startsWith('image/')).slice(0, Math.min(2, imgLimits ? imgLimits.maxCount : 2)); text = '';
+    } else if (f) { toast('只支援 PDF、Word、圖片 Only PDF, Word or images'); return; }
+    if (!images && text.replace(/\s/g, '').length < 40) { toast('讀不到文字（可能是掃描檔），請改傳照片或貼上文字。No text found: upload a photo or paste text.', 6000); return; }
+    let found = {}; if (text) ({text, found} = mask(text));
+    st.textContent = useClaude() ? 'AI 正在閱讀… AI is reading…' : '等你把 AI 的回答貼回來 Waiting for your AI…';
+    const prompt = PARSE + (text ? '\n\nCV text:\n' + text.slice(0, 20000) : '\n\nThe CV is in the attached photo(s), in page order.');
+    const r = await runAI(prompt, images ? {images, modelTier:'default'} : {modelTier:'default'});
+    if (!r || typeof r !== 'object') throw {code:'invalid_json'};
+    fillFromParse(r, found); save(); render(); st.textContent = '';
+    toast('分析完成！看看診斷結果。Done: see the diagnosis.');
+  });
+}
+
+/* ---------- samples (invented people) ---------- */
+function loadSample(kind){
+  S = blank(); S.mode = 'new';
+  if (kind === 'good') {
+    Object.assign(S, {inLang:'en', outLang:'en'});
+    Object.assign(S.contact, {nameEn:'Alex Lin', email:'alex.lin.demo@example.com', phone:'+886 900 000 000', city:'New Taipei City, Taiwan'});
+    S.target.role = 'Management Associate, retail banking';
+    S.summary.src = 'Finance student with two years of part-time admin work and TOEIC 860, seeking a management associate role in retail banking.';
+    S.education = [Object.assign(newEdu(), {school:'Fu Jen Catholic University', degree:'B.A. in Finance and International Business', start:'2023-09', end:'2027-06', note:'GPA 3.8/4.3; Dean\'s List 2024'})];
+    S.experience = [Object.assign(newExp(), {org:'Sunrise Tutoring Center', title:'Part-Time Administrative Assistant', start:'2025-01', present:true,
+      bullets:['Answered 40+ parent calls per week and booked 12 trial classes a month', 'Organized records for 150 students in Excel and cut search time by half', 'Graded 60 English quizzes per week using a shared answer key'].map(newB)})];
+    S.projects = [Object.assign(newExp(), {org:'FJU Investment Club', title:'Research Team Member', start:'2024-09', end:'2025-06',
+      bullets:['Analyzed 10 Taiwan bank stocks and presented a buy/hold report to 35 members'].map(newB)})];
+    S.skills = [Object.assign(newSkill(), {name:'Excel', level:'Advanced', proof:'built a 150-student attendance tracker with VLOOKUP'}), Object.assign(newSkill(), {name:'PowerPoint', level:'Intermediate', proof:'presented the club stock report to 35 members'})];
+    S.languages = [Object.assign(newLang(), {name:'English', level:'TOEIC 860'}), Object.assign(newLang(), {name:'Mandarin', level:'Native'})];
+  } else {
+    Object.assign(S, {inLang:'zh', outLang:'en'});
+    Object.assign(S.contact, {nameZh:'王小明', email:'cutebear0404@example.com', city:'新北市'});
+    S.education = [Object.assign(newEdu(), {school:'輔仁大學', degree:'法律學系', start:'2023-09'})];
+    S.experience = [Object.assign(newExp(), {org:'補習班', title:'行政助理', start:'2025-12', present:true,
+      bullets:['負責接聽電話和接待家長', '協助整理學生資料', '參與改考卷，學到很多溝通能力和解決問題的能力，也讓我更有責任感'].map(newB)})];
+    S.skills = [Object.assign(newSkill(), {name:'Excel'}), Object.assign(newSkill(), {name:'英文'})];
+  }
+  S.step = kind === 'good' ? 6 : 1; save(); render();
+  toast(kind === 'good' ? '已載入好範例 Strong example loaded' : '已載入待改範例：找出問題吧！Weak example loaded: find the problems!');
+}
+
+/* ---------- export ---------- */
+function fileBase(){ const n = (S.contact.nameEn || 'My').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'My'; return `${n}_CV_${new Date().getFullYear()}`; }
+async function getDownloads(){ if (!downloads) downloads = window.claude ? await claude.use('downloads').catch(() => null) : null; return downloads; }
+async function offer(filename, data){
+  const d = await getDownloads();
+  if (!d) { const url = URL.createObjectURL(data instanceof Blob ? data : new Blob([data])); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000); return true; }
+  try { await d.save({filename, data}); return true; } catch (e) { if (e.code !== 'declined') toast('下載失敗 Download failed: ' + (e.code || '')); return false; }
+}
+const pdfSafe = s => String(s || '').replace(/[^\x20-\x7E\xA0-\xFF–—‘’“”•]/g, '');
+function buildPdf(R, fs){
+  const {jsPDF} = window.jspdf, doc = new jsPDF({unit:'pt', format:'a4'});
+  const W = 595.28, H = 841.89, M = 46, lh = fs * 1.3; let y = M, pages = 1;
+  const need = h => { if (y + h > H - M) { doc.addPage(); y = M; pages++; } };
+  const font = (st, sz) => { doc.setFont('helvetica', st); doc.setFontSize(sz); };
+  font('bold', fs + 9); doc.text(pdfSafe(R.name), W / 2, y + fs + 5, {align:'center'}); y += fs + 5 + lh + 2;
+  font('normal', fs - 0.5); doc.text(pdfSafe(R.contact.join('  |  ')), W / 2, y, {align:'center'}); y += lh * 0.6;
+  const sec = t => { need(lh * 3); y += lh * 0.9; font('bold', fs + 0.5); doc.text(t, M, y); y += 3.5; doc.setLineWidth(0.8); doc.line(M, y, W - M, y); y += lh; };
+  const para = (t, st = 'normal', x = M, w = W - 2 * M) => { font(st, fs); doc.splitTextToSize(pdfSafe(t), w).forEach(l => { need(lh); doc.text(l, x, y); y += lh; }); };
+  const row = (l, r) => { need(lh); font('bold', fs); doc.text(pdfSafe(l), M, y); font('normal', fs); doc.text(pdfSafe(r), W - M, y, {align:'right'}); y += lh; };
+  const bullet = t => { font('normal', fs); const ls = doc.splitTextToSize(pdfSafe(t), W - 2 * M - 14); need(lh * ls.length); doc.text('•', M + 3, y); ls.forEach(l => { doc.text(l, M + 14, y); y += lh; }); };
+  if (R.objective) { sec('PROFILE'); para(R.objective); }
+  if (R.education.length) { sec('EDUCATION'); R.education.forEach(e => { row(e.school, e.dates); if (e.degree) para(e.degree, 'italic'); if (e.note) para(e.note); y += 2; }); }
+  const ents = (title, arr) => { if (!arr.length) return; sec(title); arr.forEach(e => { row(e.org, e.dates); const s = [e.title, e.city].filter(Boolean).join(' · '); if (s) para(s, 'italic'); e.bullets.forEach(bullet); y += 3; }); };
+  ents('EXPERIENCE', R.experience); ents('PROJECTS & ACTIVITIES', R.projects);
+  if (R.skills.length) { sec('SKILLS'); R.skills.forEach(s => para(`${s.name}${s.level ? ` (${s.level})` : ''}${s.proof ? ` — ${s.proof}` : ''}`)); }
+  if (R.languages.length) { sec('LANGUAGES'); para(R.languages.map(s => s.name + (s.level ? ` (${s.level})` : '')).join('  ·  ')); }
+  if (R.certs.length) { sec('CERTIFICATES & AWARDS'); R.certs.forEach(bullet); }
+  return {doc, pages};
+}
+function exportPdf(btn){
+  const R = resolve(false);
+  if (needsGen()) { toast('還有中文沒轉成英文，請先按「AI 產生完整履歷」。Generate your CV first.', 5000); return; }
+  return withBusy(btn, '製作 PDF… Making PDF…', async () => {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    let blob;
+    if (R.lang === 'en') {
+      let out; for (const fs of [11, 10.5, 10, 9.5]) { out = buildPdf(R, fs); if (out.pages === 1) break; }
+      if (out.pages > 1) toast('提醒：超過一頁 Note: longer than one page', 5000);
+      blob = out.doc.output('blob');
+    } else {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+      const p = $('#paper'), cut = p.querySelector('.cut'), tf = p.style.transform; if (cut) cut.remove(); p.style.transform = 'none';
+      const cv = await html2canvas(p, {scale:2, backgroundColor:'#ffffff'}); p.style.transform = tf; refresh();
+      const {jsPDF} = window.jspdf, doc = new jsPDF({unit:'pt', format:'a4'}), W = 595.28, H = 841.89, pageH = cv.width * H / W;
+      for (let y = 0, i = 0; y < cv.height; y += pageH, i++) {
+        const c = document.createElement('canvas'); c.width = cv.width; c.height = Math.min(pageH, cv.height - y);
+        c.getContext('2d').drawImage(cv, 0, -y); if (i) doc.addPage();
+        doc.addImage(c.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, W, c.height * W / cv.width);
+      }
+      blob = doc.output('blob');
+    }
+    if (await offer(fileBase() + '.pdf', blob)) toast('已下載 Saved');
+  });
+}
+function plainText(R){
+  const H = R.lang === 'en' ? ['PROFILE','EDUCATION','EXPERIENCE','PROJECTS & ACTIVITIES','SKILLS','LANGUAGES','CERTIFICATES & AWARDS'] : ['求職目標','學歷','經歷','專題與活動','技能','語言能力','證照與獎項'];
+  const L = [R.name, R.contact.join(' | '), ''];
+  if (R.objective) L.push(H[0], R.objective, '');
+  if (R.education.length) { L.push(H[1]); R.education.forEach(e => L.push(`${e.school} — ${e.dates}`, e.degree, e.note)); L.push(''); }
+  [[H[2], R.experience], [H[3], R.projects]].forEach(([t, a]) => { if (!a.length) return; L.push(t); a.forEach(e => { L.push(`${e.org} — ${e.dates}`, [e.title, e.city].filter(Boolean).join(' · ')); e.bullets.forEach(b => L.push('• ' + b)); }); L.push(''); });
+  if (R.skills.length) { L.push(H[4]); R.skills.forEach(s => L.push(`${s.name}${s.level ? ` (${s.level})` : ''}${s.proof ? ' — ' + s.proof : ''}`)); L.push(''); }
+  if (R.languages.length) L.push(H[5], R.languages.map(s => s.name + (s.level ? ` (${s.level})` : '')).join(' · '), '');
+  if (R.certs.length) { L.push(H[6]); R.certs.forEach(c => L.push('• ' + c)); }
+  return L.filter(x => x !== undefined && x !== null).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+async function copyText(){
+  const t = plainText(resolve(false));
+  try { await navigator.clipboard.writeText(t); toast('已複製，可以貼到 LinkedIn 或求職網站。Copied.'); }
+  catch (_) { const b = $('#copyBox'); b.style.display = 'block'; b.value = t; b.select(); toast('請手動複製下方文字 Copy the text below'); }
+}
+async function saveJson(){ if (await offer(fileBase() + '_progress.json', JSON.stringify(S, null, 1))) toast('已存檔 Saved'); }
+
+/* ---------- start ---------- */
+render();
+(async () => {
+  sample = window.claude ? await claude.use('sample').catch(() => null) : null;
+  if (sample) imgLimits = (await sample.limits().catch(() => null))?.images || null;
+  render();
+})();
+</script>
+</body>
+</html>
